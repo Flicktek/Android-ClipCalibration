@@ -16,7 +16,9 @@ import com.flicktek.clip.FlicktekCommands;
 import com.flicktek.clip.FlicktekManager;
 import com.flicktek.clip.MainActivity;
 import com.flicktek.clip.eventbus.ConnectedEvent;
+import com.flicktek.clip.eventbus.ConnectingEvent;
 import com.flicktek.clip.eventbus.DeviceToWearEvent;
+import com.flicktek.clip.eventbus.DisconnectedEvent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -26,10 +28,12 @@ public class CalibrationFragmentScroll extends Fragment implements View.OnClickL
     private String TAG = "CalibrationScroll";
 
     private MainActivity mainActivity;
-    private Button bClose;
-    private Button bStart;
+    private Button mClose;
+    private Button mStart;
 
     private boolean mRepeat = false;
+
+    TextView mConnectingText;
 
     public void repeatCalibration(boolean repeat) {
         mRepeat = repeat;
@@ -43,18 +47,18 @@ public class CalibrationFragmentScroll extends Fragment implements View.OnClickL
 
         rootView = inflater.inflate(R.layout.fragment_calib_welcome, container, false);
 
-        bClose = (Button) rootView.findViewById(R.id.b_close);
-        bClose.setOnClickListener(this);
-        bClose.setVisibility(View.GONE);
+        mClose = (Button) rootView.findViewById(R.id.b_close);
+        mClose.setOnClickListener(this);
+        mClose.setVisibility(View.GONE);
 
-        bStart = (Button) rootView.findViewById(R.id.b_start);
-        bStart.setOnClickListener(this);
+        mStart = (Button) rootView.findViewById(R.id.b_start);
+        mStart.setOnClickListener(this);
 
+        mConnectingText = (TextView) rootView.findViewById(R.id.tv_menu_title);
         if (mRepeat) {
-            TextView textView = (TextView) rootView.findViewById(R.id.tv_menu_title);
-            textView.setText("Would you like to calibrate again?");
-            bStart.setText("Repeat");
-            bClose.setVisibility(View.VISIBLE);
+            mConnectingText.setText("Would you like to calibrate again?");
+            mStart.setText("Repeat");
+            mClose.setVisibility(View.VISIBLE);
         }
 
         return rootView;
@@ -113,8 +117,8 @@ public class CalibrationFragmentScroll extends Fragment implements View.OnClickL
     }
 
     public void onClick(View _view) {
-        if (_view == bClose) close();
-        if (_view == bStart) {
+        if (_view == mClose) close();
+        if (_view == mStart) {
             if (FlicktekManager.getInstance().isHandshakeOk()) {
                 showEnterFragment();
             } else {
@@ -145,5 +149,23 @@ public class CalibrationFragmentScroll extends Fragment implements View.OnClickL
                                    }
         );
         close();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onLinkLost(DisconnectedEvent event) {
+        mConnectingText.setText("Try again to scan for devices...");
+        mStart.setEnabled(true);
+        mStart.setVisibility(View.VISIBLE);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onConnecting(ConnectingEvent event) {
+        mConnectingText.setText("Connecting!...");
+        mStart.setEnabled(false);
+        mStart.setVisibility(View.GONE);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onLinkRestablished(ConnectedEvent connectedEvent) {
     }
 }

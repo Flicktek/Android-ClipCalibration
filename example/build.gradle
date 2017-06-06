@@ -8,8 +8,8 @@ android {
         applicationId "com.flicktek.calibration"
         minSdkVersion 21
         targetSdkVersion 25
-        versionCode 101
-        versionName "1.0.1 Release"
+        versionCode 102
+        versionName "1.0.2 RC2"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
