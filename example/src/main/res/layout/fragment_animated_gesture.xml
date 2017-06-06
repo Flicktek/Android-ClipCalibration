@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:background="@color/black"
+                android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/imageCover"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="0dp"
+        android:alpha="0.5"
+        android:scaleType="centerCrop"
+        android:src="@drawable/gestures_background"/>
+
+    <ImageView
+        android:id="@+id/logo_flicktek"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="48dp"
+        android:adjustViewBounds="false"
+        android:cropToPadding="false"
+        android:scaleType="centerInside"
+        android:src="@drawable/logo_flicktek"
+        android:tint="@color/white"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/logo_flicktek"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="9dp"
+        android:text="Up"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/white"
+        android:textSize="52dp"
+        android:textStyle="bold"/>
+
+
+    <TextView
+        android:id="@+id/tv_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="2dp"
+        android:layout_marginTop="2dp"
+        android:text="Text"
+        android:textColor="@color/grey"
+        android:textSize="10dp"/>
+
+
+    <ImageView
+        android:id="@+id/calibration_icon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_status"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="12dp"
+        android:adjustViewBounds="false"
+        android:cropToPadding="false"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_up_circle_black"
+        android:tint="@color/white"
+
+        android:visibility="visible"/>
+
+    <Button
+        android:id="@+id/b_close"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/ic_arrow_back_black_48dp"
+        android:backgroundTint="@color/white"/>
+
+
+</RelativeLayout>
