@@ -1161,13 +1161,18 @@ public abstract class BleManager<E extends BleManagerCallbacks> implements ILogg
 					// 3. Enable Battery Level notifications if required (if this char. does not exist, this operation will be skipped)
 					if (mCallbacks.shouldEnableBatteryLevelNotifications(gatt.getDevice()))
 						mInitQueue.addFirst(Request.newEnableBatteryLevelNotificationsRequest());
+
 					// 2. Read Battery Level characteristic (if such does not exist, this will be skipped)
 					mInitQueue.addFirst(Request.newReadBatteryLevelRequest());
 					// 1. On devices running Android 4.3-6.0 the Service Changed characteristic needs to be enabled by the app (for bonded devices)
 					if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N)
 						mInitQueue.addFirst(Request.newEnableServiceChangedIndicationsRequest());
 
+					if (gatt.getDevice().getBondState() == BluetoothDevice.BOND_BONDED)
+						FlicktekCommands.getInstance().onReadyToSendData(false);
+
 					mOperationInProgress = false;
+
 					nextRequest();
 				} else {
 					Logger.w(mLogSession, "Device is not supported");
